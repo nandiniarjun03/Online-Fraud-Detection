@@ -1,0 +1,11 @@
+pandas==2.3.3
+numpy==2.5.3
+scikit-learn==1.9.1
+fastapi==0.136.1
+uvicorn==0.35.0
+pydantic==2.12.5
+joblib==1.5.3
+imbalanced-learn==0.14.2
+mlflow
+azure-ai-ml 
+azureml-mlflow
