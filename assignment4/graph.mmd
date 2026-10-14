@@ -1,0 +1,25 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	planner(planner)
+	menu_agent(menu_agent)
+	order_agent(order_agent)
+	placement_agent(placement_agent)
+	evaluator(evaluator)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> planner;
+	evaluator -.-> __end__;
+	evaluator -.-> planner;
+	menu_agent --> evaluator;
+	order_agent --> evaluator;
+	placement_agent --> evaluator;
+	planner -.-> menu_agent;
+	planner -.-> order_agent;
+	planner -.-> placement_agent;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

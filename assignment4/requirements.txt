@@ -1,0 +1,6 @@
+langgraph==1.2.15
+langchain-core==1.6.10
+langchain-anthropic==1.7.6
+anthropic==1.13.0
+pydantic>=2
+reportlab>=4
