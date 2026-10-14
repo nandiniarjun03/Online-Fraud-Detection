@@ -37,4 +37,3 @@ Run the API tests:
 python -m pip install pytest httpx
 python -m pytest api/test_main.py
 ```
- 
