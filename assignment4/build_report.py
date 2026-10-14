@@ -274,7 +274,10 @@ def build():
                    "stock check and confirms the out-of-stock drink) to demonstrate that the evaluator rejects it and the "
                    "retry loop recovers, because with a correctly behaving agent the retry path is rarely exercised.", small))
     else:
-        s += note("Scenario results will be filled in from scenario_log.json after the live run.", "Pending")
+        s += note("The six scenarios have not been run yet. They need live calls to Claude, and no API key was "
+                  "available when this document was generated. Section 4 lists the planned test script and the "
+                  "expected behaviour; running run_scenarios.py and then build_report.py fills in this table and "
+                  "the logs automatically.", "Not yet run")
     s.append(P("1.4 Conclusion", h2))
     s.append(P(
         "Splitting the work into a planner, three single-purpose agents and an independent judge makes the system easy to "
@@ -361,7 +364,19 @@ def build():
                 s.append(P(f"Scenario {current}", h2))
             s += turn_block(r)
     else:
-        s += note("Pending live run.", "Pending")
+        s += note("No live run yet - see the note in Section 1.3. These are the planned test turns and the "
+                  "behaviour each one is expected to produce.", "Not yet run")
+        s += table(["Scenario", "Thread", "Customer message", "Expected behaviour"], [
+            ["1. Browse the menu", "main", "What coffees do you have?", "planner → menu_agent → evaluator → end; drinks and prices from get_menu, Caramel Macchiato marked out of stock"],
+            ["2. Build an order", "main", "I want a large latte with oat milk.", "planner → order_agent → evaluator → end; 1 x Large Latte (oat milk) $5.35 added, asks for anything else"],
+            ["3. Incomplete order", "main", "Get me a cappuccino.", "validate_order reports size and milk missing; agent asks for them, nothing added"],
+            ["3. (follow-up)", "main", "Medium, with whole milk please.", "Medium Cappuccino (whole milk) $4.25 added"],
+            ["4. Place the order", "main", "That's all, place my order.", "planner → placement_agent; cart, subtotal, 8% tax, total; asks to confirm and for a name"],
+            ["4. (confirm)", "main", "Yes, confirm it. The name is Nandini.", "place_order returns order ID (e.g. #1042) and pickup time"],
+            ["5. Unavailable item", "s5", "One caramel macchiato.", "Out of stock reported, 2-3 alternatives suggested, cart stays empty"],
+            ["5b. Retry (fault injected)", "s5b", "One caramel macchiato.", "Forced bad draft rejected by evaluator → planner retry → correct out-of-stock answer"],
+            ["6. Empty cart", "s6", "Place my order.", "Refuses to place (guardrail), asks what they would like"],
+        ], [30 * mm, 16 * mm, 44 * mm, FW - 90 * mm])
 
     s.append(CondPageBreak(50 * mm))
     s.append(P("How to run", h2))
